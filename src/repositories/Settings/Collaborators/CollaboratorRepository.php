@@ -2,6 +2,7 @@
 
 namespace Vertuoza\Repositories\Settings\Collaborators;
 
+use Overblog\DataLoader\DataLoader; // Imported DataLoader class that was missing
 use Overblog\PromiseAdapter\PromiseAdapterInterface;
 use React\Promise\Promise;
 use Vertuoza\Repositories\Database\QueryBuilder;
