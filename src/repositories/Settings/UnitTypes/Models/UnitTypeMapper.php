@@ -31,13 +31,15 @@ class UnitTypeMapper
 
   private static function serializeMutation(UnitTypeMutationData $mutation, string $tenantId = null): array
   {
-    $data = [
-      'label' => $mutation->name,
-    ];
-
-    if ($tenantId) {
-      $data[UnitTypeModel::getTenantColumnName()] = $tenantId;
-    }
-    return $data;
+      $data = [
+          'label' => $mutation->name, 
+      ];
+  
+      if ($tenantId) {
+          $data['tenant_id'] = $tenantId; // Include tenant_id if provided
+      }
+  
+      return $data;
   }
+  
 }

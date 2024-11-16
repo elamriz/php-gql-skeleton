@@ -112,13 +112,25 @@ class UnitTypeRepository
     )();
   }
 
-  public function create(UnitTypeMutationData $data, string $tenantId): int|string
+  public function create(UnitTypeMutationData $data, string $tenantId): string
   {
-    $newId = $this->getQueryBuilder()->insertGetId(
-      UnitTypeMapper::serializeCreate($data, $tenantId)
-    );
-    return $newId;
+      $serializedData = UnitTypeMapper::serializeCreate($data, $tenantId);
+  
+      // Perform the insertion
+      $this->getQueryBuilder()->insert($serializedData);
+  
+      // Retrieve the last inserted UUID
+      $newId = $this->getQueryBuilder()
+          ->select('id')
+          ->where('label', $data->name)
+          ->where('tenant_id', $tenantId)
+          ->orderBy('created_at', 'desc')
+          ->value('id');
+  
+      return $newId;
   }
+  
+
 
   public function update(string $id, UnitTypeMutationData $data)
   {
